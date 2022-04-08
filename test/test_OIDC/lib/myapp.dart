@@ -68,9 +68,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<Map> getUserDetails(String accessToken) async {
-       final url = Uri.parse('https://$AUTH0_DOMAIN/userinfo');
+       final url = Uri.parse('https://$AUTH0_DOMAIN/userinfo');  // fix error
        final response = await http.get(
-          url,                             // error arg type
+          url,                            
           headers: {'Authorization' : 'bearer $accessToken'}, 
        );
 
