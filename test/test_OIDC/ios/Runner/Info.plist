@@ -10,7 +10,7 @@
               <key>Editor</key>
               <key>CFBundleURLSchemes</key>
               <array>
-                 <string>com.auth0.flutterdemo</key>
+                 <string>com.auth0.flutterdemo</string>
               </array>
            </dict>
         </array>
