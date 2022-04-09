@@ -18,11 +18,10 @@ final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 ///           Auth0 Variables
 /// -----------------------------------
 
-const AUTH0_DOMAIN = 'YOUR-AUTH0-DOMAIN';
-const AUTH0_CLIENT_ID = 'YOUR-AUTH0-CLIENT-ID';
+const AUTH0_DOMAIN = 'xxxx.xxxx.auth0.com';
+const AUTH0_CLIENT_ID = 'xxxxxxxxxxxxxxxxxxxxxxxxx';
 const AUTH0_REDIRECT_URI = 'com.auth0.flutterdemo://login-callback';
 const AUTH0_ISSUER = 'https://$AUTH0_DOMAIN';
-
 
 class MyApp extends StatefulWidget {
 
@@ -86,7 +85,7 @@ class _MyAppState extends State<MyApp> {
         errorMessage = '';
     });
     try {
-      final AuthorizationTokenResponse result =
+      final AuthorizationTokenResponse? result =
           await appAuth.authorizeAndExchangeCode(     // error  nullable
 	      AuthorizationTokenRequest(
 		AUTH0_CLIENT_ID,
@@ -97,11 +96,11 @@ class _MyAppState extends State<MyApp> {
 	      ),
            );
 
-      final idToken = parseIdToken(result.idToken);
-      final profile = await getUserDetails(result.accessToken);
+      final idToken = parseIdToken(result?.idToken ?? "");
+      final profile = await getUserDetails(result?.accessToken ?? "");
 
       await secureStorage.write(
-          key: 'refresh_token', value: result.refreshToken);
+          key: 'refresh_token', value: result!.refreshToken);
 
       setState(() {
         isBusy = false;
@@ -149,10 +148,10 @@ class _MyAppState extends State<MyApp> {
 	   refreshToken: storedRefreshToken,
 	 ));
 
-	 final idToken = parseIdToken(response.idToken);
-	 final profile = await getUserDetails(response.accessToken);
+	 final idToken = parseIdToken(response?.idToken ?? "");
+	 final profile = await getUserDetails(response?.accessToken ?? "");
 
-	 secureStorage.write(key: 'refresh_token', value: response.refreshToken);
+	 secureStorage.write(key: 'refresh_token', value: response?.refreshToken ?? "");
 
 	 setState(() {
 	   isBusy = false;
@@ -191,7 +190,8 @@ class Profile extends StatelessWidget {
                  shape: BoxShape.circle,
                  image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(picture ?? ''),
+	              //image: NetworkImage(picture ?? ''),
+	              image: NetworkImage(picture),
                  ),
              ),
           ),
@@ -228,7 +228,8 @@ class Login extends StatelessWidget {
              },
              child: Text('Login'),
            ),
-           Text(loginError ?? ''),
+           //Text(loginError ?? ''),
+           Text(loginError),
         ],
       );
    }
